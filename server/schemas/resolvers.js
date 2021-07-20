@@ -57,6 +57,7 @@ const resolvers = {
       const order = new Order({ products: args.products });
       const line_items = [];
 
+      console.log(line_items)
       const { products } = await order.populate('products').execPopulate();
 
       for (let i = 0; i < products.length; i++) {
@@ -71,11 +72,13 @@ const resolvers = {
           unit_amount: products[i].price * 100,
           currency: 'usd',
         });
+        console.log(product.id)
 
         line_items.push({
           price: price.id,
           quantity: 1
         });
+        console.log(line_items)
       }
 
       const session = await stripe.checkout.sessions.create({
